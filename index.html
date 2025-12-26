@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Christmas Trail</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' rx='10' ry='10' fill='%230b0f14'/%3E%3Crect x='10' y='28' width='44' height='18' rx='6' fill='%2334d399'/%3E%3Crect x='18' y='24' width='28' height='10' rx='4' fill='%23f9a8d4'/%3E%3Ccircle cx='20' cy='48' r='6' fill='%230b0f14' stroke='%23e5e7eb' stroke-width='2'/%3E%3Ccircle cx='44' cy='48' r='6' fill='%230b0f14' stroke='%23e5e7eb' stroke-width='2'/%3E%3Crect x='22' y='30' width='20' height='6' fill='%230b0f14'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="crt-overlay"></div>
+  <div id="app">
+
+    <section id="start-screen" class="panel">
+      <div class="scene start-title" style="background-image:url('assets/scene-title.png')"></div>
+      <h2>Stock Up in Seattle</h2>
+      <div class="start-grid">
+        <div class="start-top">
+          <div class="start-left">
+            <div class="start-hint">Auto-adjust keeps you within budget.</div>
+          </div>
+          <div class="start-right">
+            <div class="vibe-select">
+              <select id="vibe">
+                <option value="eco">Eco-Architect — $400 budget (1x score)</option>
+                <option value="budget" selected>Budget-Savvy — $225 budget (2x score)</option>
+                <option value="hustle">Little League Hustle — $125 budget (3x score)</option>
+              </select>
+            </div>
+            <div class="budget-row right">
+              <div>Budget: $<span id="budget-total">0</span></div>
+              <div>Spending: $<span id="budget-spent">0</span></div>
+              <div>Cash Left: $<span id="budget-left">0</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="shop-grid">
+          <label>Gas (gallons @ $6.50)</label>
+          <input id="start-gas" type="range" min="0" max="20" value="0">
+          <span id="start-gas-val"></span>
+
+          <label>Pizza pies (@ $15.60 each)</label>
+          <input id="start-pizza" type="range" min="0" max="12" step="1" value="0">
+          <span id="start-pizza-val"></span>
+
+          <label>Emergency kits (@ $26)</label>
+          <input id="start-kits" type="range" min="0" max="5" value="0">
+          <span id="start-kits-val"></span>
+        </div>
+        <button id="start-btn" class="primary">Hit I-90 →</button>
+      </div>
+    </section>
+
+  <section id="game-ui" class="hidden">
+      <div class="game-grid">
+        <div class="left-col">
+          <section class="panel scene-panel">
+            <div class="scene-label">Scenic View</div>
+            <div id="scene" class="scene">
+              <div id="scene-caption" class="scene-caption"></div>
+            </div>
+          </section>
+          <section class="panel log-panel">
+            <div class="log-header">
+              <div>Road Log</div>
+              <div id="log-filters" class="small"></div>
+            </div>
+            <div id="log-feed"></div>
+          </section>
+        </div>
+        <div class="right-col">
+          <section class="panel status-panel">
+            <div class="status-grid">
+              <div class="stat-block">
+                <div class="label">Date/Time</div>
+                <div id="stat-time" class="value"></div>
+              </div>
+              <div class="stat-block">
+                <div class="label">Miles</div>
+                <div id="stat-miles" class="value"></div>
+              </div>
+              <div class="stat-block">
+                <div class="label">Cash</div>
+                <div id="stat-cash" class="value"></div>
+              </div>
+            </div>
+            <div class="progress-row">
+              <div class="progress-label">Seattle</div>
+              <div class="progress-bar">
+                <div id="progress-fill"></div>
+              </div>
+              <div class="progress-label">Spokane</div>
+            </div>
+            <div id="landmark-next" class="label small"></div>
+          </section>
+
+          <section class="panel">
+            <div class="family-grid" id="family-grid"></div>
+          </section>
+
+          <section class="panel inventory-panel">
+            <div class="inv-item">Gas: <span id="inv-gas"></span> gal</div>
+            <div class="inv-item">Pizza: <span id="inv-pizza"></span> slices</div>
+            <div class="inv-item">Battery: <span id="inv-battery"></span>%</div>
+            <div class="inv-item">Kits: <span id="inv-kits"></span></div>
+          </section>
+
+          <section class="panel actions-panel">
+            <div class="controls">
+              <div class="control-group">
+                <label>Pace</label>
+                <div class="button-row">
+                  <button data-pace="crawl">Scenic Shuffle</button>
+                  <button data-pace="cruise" class="primary">Steady Roll</button>
+                  <button data-pace="dash">Express Dash</button>
+                </div>
+              </div>
+              <div class="control-group">
+                <label>Rations</label>
+                <div class="button-row">
+                  <button data-rations="crust">Crust Only</button>
+                  <button data-rations="sip" class="primary">Balanced Bites</button>
+                  <button data-rations="party">Pizza Party</button>
+                </div>
+              </div>
+              <div class="control-group">
+                <label>Actions</label>
+                <div class="button-row">
+                  <button id="drive-btn" class="primary">Drive</button>
+                  <button id="stop-btn">Stop / Rest</button>
+                  <button id="eat-btn">Eat Pizza Now</button>
+            <button id="trade-btn">Trade / Buy</button>
+          </div>
+        </div>
+      </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="event-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="event-body">
+        <div id="event-illustration" class="event-illustration"></div>
+        <div>
+          <div id="event-title" class="modal-title"></div>
+          <div id="event-text" class="modal-body"></div>
+          <div id="event-choices" class="choice-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="end-modal" class="modal hidden">
+    <div class="modal-content">
+      <div id="end-illustration" class="end-illustration" style="background-image:url('assets/scene-gameover.png')"></div>
+      <div id="end-title" class="modal-title"></div>
+      <div id="end-body" class="modal-body"></div>
+      <button id="restart-btn" class="primary">Restart</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
